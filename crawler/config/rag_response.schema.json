@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "talentgraph://schemas/evidence-rag-response-v1",
+  "title": "TalentGraph Evidence-Grounded RAG Response",
+  "type": "object",
+  "required": ["status", "answer", "facts", "evidence", "citation_coverage", "algorithm_version"],
+  "properties": {
+    "status": { "enum": ["grounded", "insufficient_evidence"] },
+    "answer": { "type": "string" },
+    "facts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["fact_id", "text", "skill_id", "evidence_ids", "confidence"],
+        "properties": {
+          "fact_id": { "type": "string", "pattern": "^FACT_[0-9]+$" },
+          "text": { "type": "string", "minLength": 1 },
+          "skill_id": { "type": "string", "pattern": "^skill_[a-f0-9]+$" },
+          "evidence_ids": { "type": "array", "minItems": 1, "items": { "type": "string", "pattern": "^EVD_[a-f0-9]+$" } },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 1 }
+        },
+        "additionalProperties": false
+      }
+    },
+    "evidence": { "type": "array" },
+    "citation_coverage": { "type": "number", "minimum": 0, "maximum": 1 },
+    "algorithm_version": { "const": "evidence_rag_v1" },
+    "fallback_reason": { "type": "string" },
+    "retrieval_mode": { "type": "string" },
+    "vector_mode": { "type": "string" }
+  },
+  "additionalProperties": true
+}

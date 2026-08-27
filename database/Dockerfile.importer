@@ -1,0 +1,6 @@
+FROM python:3.12-slim
+WORKDIR /workspace
+COPY database/requirements.txt /workspace/database/requirements.txt
+RUN pip install --no-cache-dir -r /workspace/database/requirements.txt
+COPY . /workspace
+CMD ["sh", "-c", "python database/run_migrations.py && python crawler/scripts/import_gold_to_pg.py && python crawler/scripts/import_reference_to_pg.py && python database/validate_postgres.py"]

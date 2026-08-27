@@ -1,0 +1,41 @@
+# ---- 依赖 ----
+node_modules/
+.venv/
+.venv*/
+__pycache__/
+*.pyc
+
+# ---- 环境变量 / 密钥（仅保留 *.example 模板）----
+.env
+.env.*
+!.env.example
+!.env.docker.example
+!.env.rag.example
+
+# ---- 数据 / 模型 / 运行时产物 ----
+crawler/data/
+knowledge_graph/gnn_dataset/
+knowledge_graph/gnn_models/
+knowledge_graph/import/
+knowledge_graph/student_accounts.json
+knowledge_graph/student_talent_map.json
+server/tessdata/
+
+# ---- 日志 ----
+*.log
+
+# ---- 构建产物 / 上传 / 输出 ----
+dist/
+dist-ssr/
+outputs/
+output/
+uploads/
+tmp/
+.coverage
+.pytest_cache/
+
+# ---- 编辑器 / 系统 ----
+.DS_Store
+.history/
+.vscode/
+.idea/

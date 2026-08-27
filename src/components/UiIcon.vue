@@ -1,0 +1,38 @@
+<template><component :is="icon" :size="size" :stroke-width="strokeWidth" aria-hidden="true" /></template>
+<script setup>
+import { computed } from 'vue'
+import Activity from '@lucide/vue/dist/esm/icons/activity.mjs'
+import BadgeCheck from '@lucide/vue/dist/esm/icons/badge-check.mjs'
+import BarChart3 from '@lucide/vue/dist/esm/icons/chart-no-axes-combined.mjs'
+import BookOpen from '@lucide/vue/dist/esm/icons/book-open.mjs'
+import Bookmark from '@lucide/vue/dist/esm/icons/bookmark.mjs'
+import BriefcaseBusiness from '@lucide/vue/dist/esm/icons/briefcase-business.mjs'
+import CalendarDays from '@lucide/vue/dist/esm/icons/calendar-days.mjs'
+import ChartNoAxesCombined from '@lucide/vue/dist/esm/icons/chart-no-axes-combined.mjs'
+import CheckCircle2 from '@lucide/vue/dist/esm/icons/circle-check.mjs'
+import CircleAlert from '@lucide/vue/dist/esm/icons/circle-alert.mjs'
+import CircleX from '@lucide/vue/dist/esm/icons/circle-x.mjs'
+import Factory from '@lucide/vue/dist/esm/icons/factory.mjs'
+import Flame from '@lucide/vue/dist/esm/icons/flame.mjs'
+import GraduationCap from '@lucide/vue/dist/esm/icons/graduation-cap.mjs'
+import Lightbulb from '@lucide/vue/dist/esm/icons/lightbulb.mjs'
+import MapPin from '@lucide/vue/dist/esm/icons/map-pin.mjs'
+import Microscope from '@lucide/vue/dist/esm/icons/microscope.mjs'
+import Radio from '@lucide/vue/dist/esm/icons/radio.mjs'
+import School from '@lucide/vue/dist/esm/icons/school.mjs'
+import Search from '@lucide/vue/dist/esm/icons/search.mjs'
+import Sparkles from '@lucide/vue/dist/esm/icons/sparkles.mjs'
+import Target from '@lucide/vue/dist/esm/icons/target.mjs'
+import TrendingUp from '@lucide/vue/dist/esm/icons/trending-up.mjs'
+import Wrench from '@lucide/vue/dist/esm/icons/wrench.mjs'
+import FileText from '@lucide/vue/dist/esm/icons/file-text.mjs'
+import Building2 from '@lucide/vue/dist/esm/icons/building-2.mjs'
+import LockKeyhole from '@lucide/vue/dist/esm/icons/lock-keyhole.mjs'
+import CircleDollarSign from '@lucide/vue/dist/esm/icons/circle-dollar-sign.mjs'
+import Pin from '@lucide/vue/dist/esm/icons/pin.mjs'
+import CircleCheck from '@lucide/vue/dist/esm/icons/circle-check.mjs'
+import GitBranch from '@lucide/vue/dist/esm/icons/git-branch.mjs'
+const props=defineProps({name:{type:String,default:'activity'},size:{type:[Number,String],default:18},strokeWidth:{type:Number,default:1.8}})
+const icons={activity:Activity,check:CheckCircle2,'badge-check':BadgeCheck,chart:BarChart3,book:BookOpen,bookmark:Bookmark,briefcase:BriefcaseBusiness,calendar:CalendarDays,trend:ChartNoAxesCombined,warning:CircleAlert,alert:CircleAlert,error:CircleX,factory:Factory,flame:Flame,graduation:GraduationCap,idea:Lightbulb,lightbulb:Lightbulb,location:MapPin,'map-pin':MapPin,microscope:Microscope,radio:Radio,school:School,search:Search,sparkles:Sparkles,target:Target,'trending-up':TrendingUp,wrench:Wrench,file:FileText,building:Building2,lock:LockKeyhole,money:CircleDollarSign,salary:CircleDollarSign,pin:Pin,'circle-check':CircleCheck,git:GitBranch}
+const icon=computed(()=>icons[props.name]||Activity)
+</script>

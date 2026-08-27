@@ -1,0 +1,328 @@
+{
+  "generated_at": "2026-08-12T02:03:34.553Z",
+  "architecture_version": "talentgraph_algorithm_architecture_v1",
+  "passed": true,
+  "checks": {
+    "all_required_artifacts_exist": true,
+    "matching_version_matches_server": true,
+    "evolution_v2_not_hardcoded_as_v1": true,
+    "learning_version_exposed": true,
+    "gnn_gate_matches_production": true,
+    "gnn_shadow_policy_preserved": true,
+    "component_versions_unique_per_stage": true
+  },
+  "production_datastores": {
+    "postgresql": "business and audit records",
+    "neo4j": "temporal evidence graph",
+    "qdrant": "talentgraph_evidence_v2",
+    "filesystem": "versioned gold and evaluation artifacts"
+  },
+  "components": [
+    {
+      "stage": "collection",
+      "name": "多源采集与血缘",
+      "version": "collection_pipeline_v2",
+      "status": "production",
+      "inputs": [
+        "公开招聘网站",
+        "企业招聘官网",
+        "GitHub/Gitee API",
+        "arXiv API",
+        "官方技术 RSS"
+      ],
+      "outputs": [
+        "bronze evidence",
+        "gold records",
+        "batch lineage"
+      ],
+      "evidence_gate": "URL、时间、内容哈希、批次 ID 必须存在"
+    },
+    {
+      "stage": "quality",
+      "name": "来源质量、重复与抄袭簇",
+      "version": "multisource_audit_v2",
+      "status": "production",
+      "inputs": [
+        "gold job records"
+      ],
+      "outputs": [
+        "source weights",
+        "repost clusters",
+        "quarantine decisions"
+      ],
+      "evidence_gate": "隔离来源和非独立转载不得进入正式统计"
+    },
+    {
+      "stage": "ontology",
+      "name": "技能本体与跨源证据",
+      "version": "cross_source_evidence_v1.0.0",
+      "status": "production",
+      "inputs": [
+        "JD",
+        "项目",
+        "论文",
+        "官方文章"
+      ],
+      "outputs": [
+        "技能标准名",
+        "别名",
+        "证据包"
+      ],
+      "evidence_gate": "每条正式证据必须有文本、URL 和版本"
+    },
+    {
+      "stage": "resume",
+      "name": "版面感知简历解析",
+      "version": "resume_parser_v2",
+      "status": "production",
+      "inputs": [
+        "PDF",
+        "DOCX",
+        "TXT",
+        "OCR blocks"
+      ],
+      "outputs": [
+        "demonstrated/claimed skills",
+        "project-skill evidence",
+        "redacted parse result"
+      ],
+      "evidence_gate": "学习中和目标技能不得作为已掌握技能"
+    },
+    {
+      "stage": "rag",
+      "name": "证据约束 RAG",
+      "version": "evidence_rag_v1",
+      "status": "production",
+      "inputs": [
+        "evidence package",
+        "Qdrant index"
+      ],
+      "outputs": [
+        "cited facts",
+        "insufficient_evidence"
+      ],
+      "evidence_gate": "无合格证据必须拒答",
+      "auxiliary_version": "qdrant_evidence_index_v2"
+    },
+    {
+      "stage": "new_job",
+      "name": "新岗位发现",
+      "version": "new_job_discovery_v3.0.0",
+      "status": "production",
+      "inputs": [
+        "time-isolated gold JD"
+      ],
+      "outputs": [
+        "early_watch",
+        "capability_direction",
+        "alias_or_noise"
+      ],
+      "evidence_gate": "公司、来源、地区、稳定性和时间外验证门控"
+    },
+    {
+      "stage": "evolution",
+      "name": "岗位技能演化与生命周期",
+      "version": "job_skill_evolution_v2",
+      "status": "production",
+      "inputs": [
+        "19,035 job versions"
+      ],
+      "outputs": [
+        "monthly snapshots",
+        "change events",
+        "lifecycle states"
+      ],
+      "evidence_gate": "低窗口或低来源支持返回 insufficient_evidence"
+    },
+    {
+      "stage": "cross_source_lag",
+      "name": "跨源领先滞后",
+      "version": "cross_source_lag_v1",
+      "status": "exploratory",
+      "inputs": [
+        "JD monthly share",
+        "arXiv monthly share",
+        "official blog monthly share"
+      ],
+      "outputs": [
+        "lead months",
+        "correlation",
+        "95% CI"
+      ],
+      "evidence_gate": "至少 4 个活跃来源月和 6 个重叠月",
+      "claim_scope": "exploratory_association_noncausal"
+    },
+    {
+      "stage": "graph",
+      "name": "时间属性知识图谱",
+      "version": "graph_contract_v2",
+      "status": "production",
+      "inputs": [
+        "jobs",
+        "skills",
+        "companies",
+        "projects",
+        "papers",
+        "articles",
+        "courses",
+        "certificates"
+      ],
+      "outputs": [
+        "Neo4j nodes and typed evidence edges"
+      ],
+      "evidence_gate": "图契约、主键、关系端点验收"
+    },
+    {
+      "stage": "matching",
+      "name": "两阶段召回、融合排序与多样化",
+      "version": "diversified_feedback_matching_v8",
+      "status": "production",
+      "inputs": [
+        "allowed profile features",
+        "resume skills/projects",
+        "KG",
+        "behavior events"
+      ],
+      "shadow_inputs": [
+        "GNN embeddings"
+      ],
+      "outputs": [
+        "ranked jobs",
+        "dimension evidence",
+        "fallback reason"
+      ],
+      "evidence_gate": "缺失维度重归一化；无证据维度不可用；GNN 影子值不参与排序",
+      "weights": {
+        "required": 0.4,
+        "semantic": 0.2,
+        "kg": 0.15,
+        "project": 0.1,
+        "preference": 0.05,
+        "cf": 0.1,
+        "gnn": 0
+      }
+    },
+    {
+      "stage": "gnn",
+      "name": "异构 GraphSAGE 辅助表征",
+      "version": "hetero_graphsage_unsupervised_v1",
+      "status": "shadow_evaluation",
+      "inputs": [
+        "8 node types",
+        "16 typed directed relations"
+      ],
+      "outputs": [
+        "24-dimensional auxiliary embeddings"
+      ],
+      "evidence_gate": "无真实结果边与独立下游评估时禁止进入生产融合或声明人岗准确率",
+      "claim_scope": "graph representation pretraining only",
+      "serving_policy": {
+        "mode": "shadow_only",
+        "production_weight": 0,
+        "affects_ranking": false,
+        "formal_matching_accuracy_eligible": false
+      },
+      "production_method": "diversified_feedback_matching_v8_with_gnn_shadow_evaluation"
+    },
+    {
+      "stage": "gap",
+      "name": "证据与成本约束差距优先级",
+      "version": "evidence_cost_gap_priority_v2",
+      "status": "production",
+      "inputs": [
+        "match score details",
+        "JD evidence",
+        "market evidence",
+        "skill prerequisites"
+      ],
+      "outputs": [
+        "0-100 gap priorities"
+      ],
+      "evidence_gate": "要求重要性、置信度、职业相关性和学习成本全部可解释"
+    },
+    {
+      "stage": "learning",
+      "name": "先修约束学习路径",
+      "version": "verified_prerequisite_learning_path_v2",
+      "status": "production",
+      "inputs": [
+        "latest prioritized gaps",
+        "skill hierarchy",
+        "verified resources"
+      ],
+      "outputs": [
+        "ordered learning tasks"
+      ],
+      "evidence_gate": "URL 仅来自 is_verified=1；无资源则留空"
+    },
+    {
+      "stage": "feedback",
+      "name": "曝光与行为反馈闭环",
+      "version": "diversified_feedback_matching_v8",
+      "status": "production",
+      "inputs": [
+        "exposure",
+        "click",
+        "favorite",
+        "apply",
+        "interview",
+        "hire"
+      ],
+      "outputs": [
+        "time-decayed CF",
+        "MMR reranking",
+        "unseen quota"
+      ],
+      "evidence_gate": "曝光未点击不直接作为负反馈"
+    },
+    {
+      "stage": "compliance",
+      "name": "公平性与隐私控制",
+      "version": "fairness_privacy_audit_v1",
+      "status": "production",
+      "inputs": [
+        "allowlisted matching profile",
+        "redacted resume"
+      ],
+      "outputs": [
+        "feature exclusion audit",
+        "retention and deletion audit"
+      ],
+      "evidence_gate": "不推断敏感属性",
+      "claim_scope": "counterfactual_feature_exclusion_only"
+    },
+    {
+      "stage": "evaluation",
+      "name": "统一可复现评测",
+      "version": "claim_scoped_acceptance_v2",
+      "status": "production",
+      "inputs": [
+        "human-gold evaluation",
+        "unit tests",
+        "acceptance reports"
+      ],
+      "outputs": [
+        "metrics",
+        "confidence intervals",
+        "data hashes",
+        "error samples"
+      ],
+      "evidence_gate": "每项指标必须绑定其金标与声明范围",
+      "claim_scope": "artifact_specific"
+    }
+  ],
+  "artifact_hashes": {
+    "crawler/data/gold/new_jobs/new_job_candidates.json": "8d994dae64ecbd7a20ca62dc03896765ca96a64d048da05d11931d6da11a6100",
+    "crawler/data/gold/temporal/job_skill_monthly_snapshots.jsonl": "40cb9949abdea50c08e53f8eb26f4379b8e1cc86a6e70a8d580502bff32a70a8",
+    "crawler/data/gold/temporal/skill_lifecycle_trends.jsonl": "286bc10e88e3f9ed4bc239824ec3681dfd703634ab54ff3a4c10940d7be8b239",
+    "crawler/data/gold/temporal/skill_cross_source_lag.jsonl": "fcd30a11579779112395f6bd76f2415766a6cb9a730c02312d39f7475bc2b7b3",
+    "knowledge_graph/import/graph_contract_report.json": "38869f218b6021a0754a1c5809172d5988680b4e4e5f2a5d43f934c5f9913f15",
+    "knowledge_graph/gnn_models/online_embeddings.json": "37891b52eb12a911c362fb997dbf321f0ba8fa1d615bc9721b12c7014bb0fe98",
+    "crawler/data/reports/fairness_privacy_compliance_audit.json": "71fe24dba883e1062dbd9830b5ee71e076bff4d2fae505edc460fd62d470f58b"
+  },
+  "prohibited_claims": [
+    "independent human-gold accuracy",
+    "supervised GNN talent-job accuracy",
+    "causal claim from lag correlation"
+  ]
+}

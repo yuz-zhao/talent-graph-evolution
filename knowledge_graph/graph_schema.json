@@ -1,0 +1,23 @@
+{
+  "version": "1.0.0",
+  "required_files": {
+    "nodes_skill.csv": ["skill_id:ID", "name", "category", "skill_type"],
+    "nodes_job.csv": ["job_id:ID", "canonical_job_id", "title", "standard_name", "source_url"],
+    "nodes_job_cluster.csv": ["cluster_id:ID", "name", "job_count:int", "grouping_method"],
+    "rel_job_requires_skill.csv": [":START_ID", ":END_ID", "confidence:float", "evidence_text", "source_url"],
+    "rel_job_belongs_cluster.csv": [":START_ID", ":END_ID", "confidence:float", "evidence_text"],
+    "rel_skill_parent.csv": [":START_ID", ":END_ID", "confidence:float", "evidence_text"]
+  },
+  "neo4j_contract": {
+    "nodes": {
+      "job": "岗位",
+      "skill": "技能",
+      "job_cluster": "岗位群"
+    },
+    "relationships": {
+      "job_requires_skill": "要求技能",
+      "job_belongs_cluster": "属于岗位群",
+      "skill_parent": "父技能"
+    }
+  }
+}

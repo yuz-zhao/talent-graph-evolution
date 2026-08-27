@@ -1,0 +1,32 @@
+{
+  "version": "cross_source_evidence_v1.0.0",
+  "weights": {
+    "job": 0.45,
+    "project": 0.20,
+    "paper": 0.12,
+    "blog": 0.10,
+    "course": 0.07,
+    "certificate": 0.06
+  },
+  "source_reliability": {
+    "job": 0.80,
+    "project": 0.85,
+    "paper": 0.90,
+    "blog": 0.80,
+    "course": 0.90,
+    "certificate": 0.95,
+    "official_company": 1.00,
+    "official_institute": 1.00,
+    "official_public_page": 1.00,
+    "public_page": 0.80,
+    "public_api": 0.85
+  },
+  "thresholds": {
+    "strong": 0.62,
+    "moderate": 0.42,
+    "minimum_relation_confidence": 0.55,
+    "minimum_independent_external_groups": 2
+  },
+  "freshness_half_life_days": 730,
+  "maximum_evidence_per_skill_group": 100
+}

@@ -1,0 +1,84 @@
+name: Weekly open-source trend snapshot
+
+on:
+  schedule:
+    - cron: "15 2 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install collector dependency
+        run: python -m pip install requests
+
+      - name: Collect GitHub and Gitee repositories
+        run: |
+          python crawler/spiders/tech/github_trend_spider.py --pages 1 --per-page 30 --activity-limit 100
+          python crawler/scripts/refresh_github_legacy.py --limit 100
+          python crawler/spiders/tech/gitee_trend_spider.py
+
+      - name: Collect authentic GitHub repository details
+        run: python crawler/spiders/tech/github_detail_spider.py --limit 0 --max-dependency-files 2
+
+      - name: Refresh relevant arXiv research metadata
+        run: python crawler/spiders/tech/arxiv_spider.py --target 550 --per-category 70
+
+      - name: Refresh official industry technology sources
+        run: python crawler/spiders/tech/blog_spider.py --body-per-source 3 --delay 1.5
+
+      - name: Build reproducible scores and validate
+        run: |
+          python crawler/scripts/build_github_hotness.py
+          python crawler/scripts/validate_github_trend_v2.py
+          python crawler/scripts/validate_github_detail_v2.py
+          python crawler/scripts/build_arxiv_monthly.py
+          python crawler/scripts/validate_arxiv_v2.py
+          python crawler/scripts/validate_blog_v2.py
+
+      - name: Archive API raw responses
+        uses: actions/upload-artifact@v4
+        with:
+          name: open-source-api-raw-${{ github.run_id }}
+          path: |
+            crawler/data/raw/github/api/
+            crawler/data/raw/github/detail_api/
+            crawler/data/raw/gitee/api/
+            crawler/data/collection/github/search_batches/
+            crawler/data/raw/arxiv/api/
+            crawler/data/raw/blog/api/
+          retention-days: 90
+
+      - name: Commit weekly data products
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add crawler/data/raw/github_trend.jsonl
+          git add crawler/data/raw/github_detail.jsonl
+          git add crawler/data/raw/github_activity.jsonl
+          git add crawler/data/raw/gitee_trend.jsonl
+          git add crawler/data/snapshots/github crawler/data/snapshots/gitee
+          git add crawler/data/processed/github_hotness.jsonl
+          git add crawler/data/report/github_hotness_methodology.json
+          git add crawler/data/report/github_trend_v2_quality_report.json
+          git add crawler/data/report/github_detail_v2_quality_report.json
+          git add crawler/data/raw/arxiv_trend.jsonl
+          git add crawler/data/quarantine/arxiv_irrelevant.jsonl
+          git add crawler/data/processed/arxiv_monthly_trend.jsonl
+          git add crawler/data/report/arxiv_v2_quality_report.json
+          git add crawler/data/raw/blog_trend.jsonl
+          git add crawler/data/report/blog_v2_quality_report.json
+          git diff --cached --quiet || git commit -m "data: weekly open-source trend snapshot"
+          git push

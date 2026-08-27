@@ -1,0 +1,306 @@
+@import 'tailwindcss';
+@import './additional-styles/flatpickr.css';
+@import './additional-styles/utility-patterns.css' layer(components);
+@source "../";
+
+.ui-icon-text{display:inline-flex;align-items:center;gap:6px}.ui-icon-text>svg{flex:none;color:#69758a}
+
+@plugin "@tailwindcss/forms" {
+  strategy: base;
+}
+
+@custom-variant dark (&:is(.dark *));
+@custom-variant sidebar-expanded (&:is(.sidebar-expanded *));
+
+@theme {
+  --font-sans: 'PingFang SC', 'Microsoft YaHei', ui-sans-serif, system-ui, sans-serif;
+  --shadow-sm: 0 1px 1px 0 rgb(0 0 0 / 0.05), 0 1px 2px 0 rgb(0 0 0 / 0.02);
+
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #bfc4cd;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
+  --color-gray-950: #030712;
+
+  --color-violet-50: #f5f9ff;
+  --color-violet-100: #eaf3ff;
+  --color-violet-200: #d6e8fb;
+  --color-violet-300: #b9d7f6;
+  --color-violet-400: #91bdf0;
+  --color-violet-500: #6366f1;
+  --color-violet-600: #4a8bdc;
+  --color-violet-700: #3974c0;
+  --color-violet-800: #315f99;
+  --color-violet-900: #294f7d;
+  --color-violet-950: #1b3454;
+
+  --color-sky-50: #e3f3ff;
+  --color-sky-100: #d1ecff;
+  --color-sky-200: #b6e1ff;
+  --color-sky-300: #a0d7ff;
+  --color-sky-400: #7bc8ff;
+  --color-sky-500: #67bfff;
+  --color-sky-600: #56b1f3;
+  --color-sky-700: #3193da;
+  --color-sky-800: #1c71ae;
+  --color-sky-900: #124d79;
+  --color-sky-950: #0b324f;
+
+  --color-green-50: #d2ffe2;
+  --color-green-100: #b1fdcd;
+  --color-green-200: #8bf0b0;
+  --color-green-300: #67e294;
+  --color-green-400: #4bd37d;
+  --color-green-500: #3ec972;
+  --color-green-600: #34bd68;
+  --color-green-700: #239f52;
+  --color-green-800: #15773a;
+  --color-green-900: #0f5429;
+  --color-green-950: #0a3f1e;
+
+  --color-red-50: #ffe8e8;
+  --color-red-100: #ffd1d1;
+  --color-red-200: #ffb2b2;
+  --color-red-300: #ff9494;
+  --color-red-400: #ff7474;
+  --color-red-500: #ff5656;
+  --color-red-600: #fa4949;
+  --color-red-700: #e63939;
+  --color-red-800: #c52727;
+  --color-red-900: #941818;
+  --color-red-950: #600f0f;
+
+  --color-yellow-50: #fff2c9;
+  --color-yellow-100: #ffe7a0;
+  --color-yellow-200: #ffe081;
+  --color-yellow-300: #ffd968;
+  --color-yellow-400: #f7cd4c;
+  --color-yellow-500: #f0bb33;
+  --color-yellow-600: #dfad2b;
+  --color-yellow-700: #bc9021;
+  --color-yellow-800: #816316;
+  --color-yellow-900: #4f3d0e;
+  --color-yellow-950: #342809;
+
+
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1.5;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.5715;
+  --text-base: 1rem;
+  --text-base--line-height: 1.5;
+  --text-base--letter-spacing: -0.01em;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.5;
+  --text-lg--letter-spacing: -0.01em;
+  --text-xl: 1.25rem;
+  --text-xl--line-height: 1.5;
+  --text-xl--letter-spacing: -0.01em;
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: 1.33;
+  --text-2xl--letter-spacing: -0.01em;
+  --text-3xl: 1.88rem;
+  --text-3xl--line-height: 1.33;
+  --text-3xl--letter-spacing: -0.01em;
+  --text-4xl: 2.25rem;
+  --text-4xl--line-height: 1.25;
+  --text-4xl--letter-spacing: -0.02em;
+  --text-5xl: 3rem;
+  --text-5xl--line-height: 1.25;
+  --text-5xl--letter-spacing: -0.02em;
+  --text-6xl: 3.75rem;
+  --text-6xl--line-height: 1.2;
+  --text-6xl--letter-spacing: -0.02em;
+
+  --breakpoint-xs: 480px;
+}
+
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
+
+@layer components {
+  .dashboard-panel-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(196 181 253 / 0.75) transparent;
+  }
+
+  .dashboard-panel-scroll::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .dashboard-panel-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .dashboard-panel-scroll::-webkit-scrollbar-thumb {
+    background: rgb(196 181 253 / 0.75);
+    border-radius: 999px;
+  }
+
+  .dashboard-panel-scroll::-webkit-scrollbar-thumb:hover {
+    background: rgb(139 92 246 / 0.8);
+  }
+}
+
+/* ============================================
+   Global Animation Keyframes & Utilities
+   ============================================ */
+
+/* Entrance animations */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* Shimmer / skeleton loading */
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Gradient background flow */
+@keyframes gradientFlow {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Floating / breathing */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%      { transform: translateY(-6px); }
+}
+
+/* Pulse glow ring */
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.25); }
+  50%      { box-shadow: 0 0 0 10px rgba(124, 58, 237, 0); }
+}
+
+/* Pulse scale for status dots */
+@keyframes pulseDot {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); }
+  50%      { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+}
+
+/* Animated progress bar stripe */
+@keyframes barFlow {
+  0%   { background-position: 0 0; }
+  100% { background-position: 30px 0; }
+}
+
+/* Gentle rotation (for icon hover) */
+@keyframes gentleRotate {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(6deg); }
+}
+
+/* Border glow pulse */
+@keyframes borderGlow {
+  0%, 100% { border-color: rgba(124, 58, 237, 0.12); }
+  50%      { border-color: rgba(124, 58, 237, 0.28); }
+}
+
+/* Utility classes */
+.anim-fade-in-up {
+  animation: fadeInUp 0.5s ease-out both;
+}
+.anim-fade-in {
+  animation: fadeIn 0.4s ease-out both;
+}
+.anim-scale-in {
+  animation: scaleIn 0.4s ease-out both;
+}
+
+/* Staggered children — apply on parent */
+.anim-stagger > * {
+  opacity: 0;
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+.anim-stagger > *:nth-child(1)  { animation-delay: 0.05s; }
+.anim-stagger > *:nth-child(2)  { animation-delay: 0.1s; }
+.anim-stagger > *:nth-child(3)  { animation-delay: 0.15s; }
+.anim-stagger > *:nth-child(4)  { animation-delay: 0.2s; }
+.anim-stagger > *:nth-child(5)  { animation-delay: 0.25s; }
+.anim-stagger > *:nth-child(6)  { animation-delay: 0.3s; }
+.anim-stagger > *:nth-child(7)  { animation-delay: 0.35s; }
+.anim-stagger > *:nth-child(8)  { animation-delay: 0.4s; }
+.anim-stagger > *:nth-child(9)  { animation-delay: 0.45s; }
+.anim-stagger > *:nth-child(10) { animation-delay: 0.5s; }
+
+/* Shimmer surface — apply to elements for loading skeleton */
+.shimmer-surface {
+  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Card lift on hover — reusable class */
+.card-lift {
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.card-lift:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);
+  border-color: #e9d5ff;
+}
+
+/* Pulse dot for status indicators */
+.dot-pulse {
+  animation: pulseDot 2s infinite;
+}
+
+/* Gradient text (for special highlights) */
+.gradient-text {
+  background: linear-gradient(135deg, #7c3aed, #6366f1);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Bar with flowing shimmer stripe */
+.bar-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.bar-shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.35) 50%, transparent 100%);
+  background-size: 60px 100%;
+  animation: barFlow 1.2s linear infinite;
+}

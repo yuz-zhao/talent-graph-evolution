@@ -1,0 +1,21 @@
+{
+  "version": "2.0.0",
+  "sources": {
+    "github": {"data_type":"technology_project","source_type":"public_api","existing_file":"data/gold/records/github_technology_project.jsonl","rate_limit_seconds":1.0},
+    "gitee": {"data_type":"technology_project","source_type":"domestic_public_api","existing_file":"data/gold/records/gitee_technology_project.jsonl","rate_limit_seconds":1.0},
+    "arxiv": {"data_type":"paper","source_type":"public_api","existing_file":"data/gold/records/arxiv_paper.jsonl","rate_limit_seconds":3.0},
+    "blog": {"data_type":"technology_article","source_type":"public_rss","existing_file":"data/gold/records/blog_technology_article.jsonl","rate_limit_seconds":1.0},
+    "enterprise-greenhouse": {"data_type":"job","source_type":"public_api","existing_file":"data/gold/records/enterprise-greenhouse_job.jsonl","rate_limit_seconds":1.0},
+    "arbeitnow": {"data_type":"job","source_type":"public_api","existing_file":"data/gold/records/arbeitnow_job.jsonl","rate_limit_seconds":1.0},
+    "remotive": {"data_type":"job","source_type":"public_api","existing_file":"data/gold/records/remotive_job.jsonl","rate_limit_seconds":1.0},
+    "ncss": {"data_type":"job","source_type":"official_public_page","existing_file":"data/gold/records/ncss_job.jsonl","rate_limit_seconds":2.0},
+    "zhaopin": {"data_type":"job","source_type":"public_page","existing_file":"data/gold/records/zhaopin_job.jsonl","rate_limit_seconds":2.0},
+    "liepin": {"data_type":"job","source_type":"public_page","existing_file":"data/gold/records/liepin_job.jsonl","rate_limit_seconds":2.0},
+    "tencent-careers": {"data_type":"job","source_type":"official_company","existing_file":"data/gold/records/tencent-careers_job.jsonl","rate_limit_seconds":1.0},
+    "china-telecom-careers": {"data_type":"job","source_type":"official_company","existing_file":"data/gold/records/china-telecom-careers_job.jsonl","rate_limit_seconds":2.0},
+    "caict-careers": {"data_type":"job","source_type":"official_institute","existing_file":"data/gold/records/caict-careers_job.jsonl","rate_limit_seconds":2.0},
+    "courses": {"data_type":"course","source_type":"official_catalog","existing_file":"data/gold/records/courses_course.jsonl","rate_limit_seconds":1.0},
+    "certificates": {"data_type":"certificate","source_type":"official_issuer","existing_file":"data/gold/records/certificates_certificate.jsonl","rate_limit_seconds":1.0},
+    "github-profiles": {"data_type":"public_profile","source_type":"public_api","existing_file":"data/gold/records/github-profiles_public_profile.jsonl","rate_limit_seconds":1.0}
+  }
+}

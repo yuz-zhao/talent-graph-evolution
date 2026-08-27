@@ -1,0 +1,27 @@
+{
+  "version": "1.0.0",
+  "timezone": "Asia/Shanghai",
+  "jobs": {
+    "china_jobs_daily": {
+      "enabled": true,
+      "interval_minutes": 1440,
+      "sources": ["zhaopin", "liepin", "ncss", "tencent-careers", "china-telecom-careers", "caict-careers"],
+      "retries": 3,
+      "timeout_minutes": 90
+    },
+    "technology_daily": {
+      "enabled": true,
+      "interval_minutes": 1440,
+      "sources": ["github", "gitee", "arxiv", "blog"],
+      "retries": 3,
+      "timeout_minutes": 120
+    },
+    "learning_weekly": {
+      "enabled": true,
+      "interval_minutes": 10080,
+      "sources": ["courses", "certificates"],
+      "retries": 2,
+      "timeout_minutes": 60
+    }
+  }
+}

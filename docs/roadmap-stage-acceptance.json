@@ -1,0 +1,427 @@
+{
+  "generated_at": "2026-08-05T13:27:36.486Z",
+  "audit_version": "roadmap_stage_acceptance_v1",
+  "passed": true,
+  "claim_policy_preserved": true,
+  "architecture_passed": true,
+  "counts": {
+    "completed": 22,
+    "partial": 1,
+    "blocked": 5,
+    "not_started": 0
+  },
+  "stages": [
+    {
+      "stage": 0,
+      "counts": {
+        "completed": 7,
+        "partial": 0,
+        "blocked": 0,
+        "not_started": 0
+      }
+    },
+    {
+      "stage": 1,
+      "counts": {
+        "completed": 6,
+        "partial": 0,
+        "blocked": 0,
+        "not_started": 0
+      }
+    },
+    {
+      "stage": 2,
+      "counts": {
+        "completed": 5,
+        "partial": 0,
+        "blocked": 0,
+        "not_started": 0
+      }
+    },
+    {
+      "stage": 3,
+      "counts": {
+        "completed": 3,
+        "partial": 1,
+        "blocked": 1,
+        "not_started": 0
+      }
+    },
+    {
+      "stage": 4,
+      "counts": {
+        "completed": 1,
+        "partial": 0,
+        "blocked": 4,
+        "not_started": 0
+      }
+    }
+  ],
+  "items": [
+    {
+      "id": "S0-01",
+      "stage": 0,
+      "title": "修复 Item-CF 空技能集合错误",
+      "status": "completed",
+      "evidence": [
+        "server/matching-utils.js",
+        "server/matching-utils.test.js"
+      ],
+      "acceptance": "npm run test:matching",
+      "reason": "",
+      "next_action": ""
+    },
+    {
+      "id": "S0-02",
+      "stage": 0,
+      "title": "统一 fused_score 的排序、落库和展示",
+      "status": "completed",
+      "evidence": [
+        "server/index.js",
+        "server/matching-utils.test.js"
+      ],
+      "acceptance": "npm run test:matching",
+      "reason": "",
+      "next_action": ""
+    },
+    {
+      "id": "S0-03",
+      "stage": 0,
+      "title": "恢复岗位群与技能父子关系契约",
+      "status": "completed",
+      "evidence": [
+        "knowledge_graph/graph_schema.json",
+        "knowledge_graph/import/graph_contract_report.json"
+      ],
+      "acceptance": "npm run audit:graph",
+      "reason": "",
+      "next_action": ""
+    },
+    {
+      "id": "S0-04",
+      "stage": 0,
+      "title": "清理关键算法空 catch 并增加降级日志",
+      "status": "completed",
+      "evidence": [
+        "server/fallback-observability.js",
+        "server/fallback-observability.test.js",
+        "scripts/audit-critical-fallbacks.mjs"
+      ],
+      "acceptance": "npm run test:fallbacks && npm run audit:fallbacks",
+      "reason": "",
+      "next_action": ""
+    },
+    {
+      "id": "S0-05",
+      "stage": 0,
+      "title": "完成 UTF-8 乱码扫描和中文回归测试",
+      "status": "completed",
+      "evidence": [
+        "crawler/scripts/audit_utf8_integrity.py",
+        "crawler/data/reports/utf8_integrity_report.json",
+        "crawler/tests/test_utf8_integrity.py",
+        "crawler/tests/test_skill_mapping.py"
+      ],
+      "acceptance": "npm run audit:utf8 && npm run evaluate:formal",
+      "reason": "",
+      "next_action": ""
+    },
+    {
+      "id": "S0-06",
+      "stage": 0,
+      "title": "修复新岗位与 Qdrant 旧数据路径",
+      "status": "completed",
+      "evidence": [
+        "crawler/scripts/discover_new_jobs_v3.py",
+        "knowledge_graph/index_to_qdrant.py",
+        "crawler/data/reports/qdrant_index_report.json"
+      ],
+      "acceptance": "npm run architecture:build",
+      "reason": "",
+      "next_action": ""
+    },
+    {
+      "id": "S0-07",
+      "stage": 0,
+      "title": "替换失效的旧匹配准确率测试",
+      "status": "completed",
+      "evidence": [
+        "server/matching-utils.test.js",
+        "crawler/scripts/evaluate_ranking_v3.py"
+      ],
+      "acceptance": "npm run evaluate:formal",
+      "reason": "旧脚本保留为历史入口，正式验收已由统一回归评测替代。",
+      "next_action": ""
+    },
+    {
+      "id": "S1-01",
+      "stage": 1,
+      "title": "重建新岗位候选生成算法",
+      "status": "completed",
+      "evidence": [
+        "crawler/scripts/discover_new_jobs_v3.py",
+        "crawler/data/gold/new_jobs/new_job_candidates.json"
+      ],
+      "acceptance": "python crawler/scripts/validate_new_job_discovery_v3.py",
+      "reason": "",
+      "next_action": ""
+    },
+    {
+      "id": "S1-02",
+      "stage": 1,
+      "title": "加入聚类稳定性和时间外验证",
+      "status": "completed",
+      "evidence": [
+        "crawler/data/gold/new_jobs/new_job_candidates.json"
+      ],
+      "acceptance": "python crawler/scripts/validate_new_job_discovery_v3.py",
+      "reason": "",
+      "next_action": ""
+    },
+    {
+      "id": "S1-03",
+      "stage": 1,
+      "title": "完成岗位技能新增、删除、修改检测",
+      "status": "completed",
+      "evidence": [
+        "crawler/scripts/detect_job_skill_evolution.py",
+        "crawler/data/reports/job_skill_evolution_report.json"
+      ],
+      "acceptance": "python crawler/scripts/validate_job_skill_evolution.py",
+      "reason": "",
+      "next_action": ""
+    },
+    {
+      "id": "S1-04",
+      "stage": 1,
+      "title": "建立来源质量、重复簇和时间校正",
+      "status": "completed",
+      "evidence": [
+        "crawler/scripts/audit_multisource_data.py",
+        "crawler/data/reports/multisource_audit_report.json"
+      ],
+      "acceptance": "npm run evaluate:formal",
+      "reason": "",
+      "next_action": ""
+    },
+    {
+      "id": "S1-05",
+      "stage": 1,
+      "title": "建立证据包与 LLM 结构化生成门控",
+      "status": "completed",
+      "evidence": [
+        "server/rag-core.js",
+        "server/rag-core.test.js",
+        "crawler/config/rag_response.schema.json"
+      ],
+      "acceptance": "npm run test:rag",
+      "reason": "",
+      "next_action": ""
+    },
+    {
+      "id": "S1-06",
+      "stage": 1,
+      "title": "完成新岗位与既有岗位正式演示样例",
+      "status": "completed",
+      "evidence": [
+        "crawler/data/evaluation/roadmap_demo_cases.json",
+        "crawler/data/reports/roadmap_demo_acceptance.json"
+      ],
+      "acceptance": "npm run demo:build && npm run demo:validate",
+      "reason": "",
+      "next_action": ""
+    },
+    {
+      "id": "S2-01",
+      "stage": 2,
+      "title": "版面感知简历解析",
+      "status": "completed",
+      "evidence": [
+        "server/document-extractor.js",
+        "server/resume-parser.js"
+      ],
+      "acceptance": "npm run test:document && npm run test:resume",
+      "reason": "",
+      "next_action": ""
+    },
+    {
+      "id": "S2-02",
+      "stage": 2,
+      "title": "章节分类和项目技能关系抽取",
+      "status": "completed",
+      "evidence": [
+        "server/resume-parser.js",
+        "server/resume-parser.test.js"
+      ],
+      "acceptance": "npm run test:resume",
+      "reason": "",
+      "next_action": ""
+    },
+    {
+      "id": "S2-03",
+      "stage": 2,
+      "title": "两阶段候选召回与排序",
+      "status": "completed",
+      "evidence": [
+        "server/index.js",
+        "docs/algorithm-architecture-manifest.json"
+      ],
+      "acceptance": "npm run architecture:build",
+      "reason": "",
+      "next_action": ""
+    },
+    {
+      "id": "S2-04",
+      "stage": 2,
+      "title": "缺失维度重归一化和置信度输出",
+      "status": "completed",
+      "evidence": [
+        "server/matching-utils.js",
+        "server/matching-utils.test.js"
+      ],
+      "acceptance": "npm run test:matching",
+      "reason": "",
+      "next_action": ""
+    },
+    {
+      "id": "S2-05",
+      "stage": 2,
+      "title": "基于先修图和真实课程的路径优化",
+      "status": "completed",
+      "evidence": [
+        "server/index.js",
+        "docs/algorithm-architecture-manifest.json"
+      ],
+      "acceptance": "npm run architecture:build",
+      "reason": "",
+      "next_action": ""
+    },
+    {
+      "id": "S3-01",
+      "stage": 3,
+      "title": "建立 100 条 JD 正式测试集",
+      "status": "partial",
+      "evidence": [
+        "crawler/data/gold/reference/ai_assisted_evaluation_manifest.json",
+        "crawler/data/reports/ai_jd_benchmark_acceptance.json"
+      ],
+      "acceptance": "npm run audit:ai-jd && npm run evaluate:formal",
+      "reason": "现有 100 条真实、唯一、可回溯 JD 已通过 AI 参考基准验收，但标签为 AI 参考，formal_gold=false，不能作为独立人工金标。",
+      "next_action": "按用户选择继续作为 AI-only 回归集；赛题 90% 正式准确率声明仍需独立人工复核。"
+    },
+    {
+      "id": "S3-02",
+      "stage": 3,
+      "title": "完成授权匿名简历评测集",
+      "status": "blocked",
+      "evidence": [
+        "crawler/data/gold/reference/ai_assisted_evaluation_manifest.json"
+      ],
+      "acceptance": "npm run evaluate:formal",
+      "reason": "现有公开画像不是授权上传简历，系统不能伪造授权或匿名简历。",
+      "next_action": "由数据权利人提供授权简历并经匿名化导入。"
+    },
+    {
+      "id": "S3-03",
+      "stage": 3,
+      "title": "增加单元测试和覆盖率报告",
+      "status": "completed",
+      "evidence": [
+        "crawler/data/reports/formal_evaluation_summary.json"
+      ],
+      "acceptance": "npm run evaluate:formal",
+      "reason": "",
+      "next_action": ""
+    },
+    {
+      "id": "S3-04",
+      "stage": 3,
+      "title": "增加算法版本、数据版本和复现清单",
+      "status": "completed",
+      "evidence": [
+        "docs/algorithm-architecture-manifest.json",
+        "crawler/data/reports/formal_evaluation_summary.json"
+      ],
+      "acceptance": "npm run architecture:build && npm run evaluate:formal",
+      "reason": "",
+      "next_action": ""
+    },
+    {
+      "id": "S3-05",
+      "stage": 3,
+      "title": "Docker 一键部署和端到端演示测试",
+      "status": "completed",
+      "evidence": [
+        "docker-compose.yml",
+        "server/Dockerfile",
+        "Dockerfile.web",
+        "docker/nginx.conf",
+        "scripts/docker-e2e-smoke.mjs"
+      ],
+      "acceptance": "npm run docker:config && npm run docker:up && npm run docker:e2e",
+      "reason": "",
+      "next_action": ""
+    },
+    {
+      "id": "S4-01",
+      "stage": 4,
+      "title": "行为曝光日志和时间衰减 CF",
+      "status": "completed",
+      "evidence": [
+        "server/index.js",
+        "docs/algorithm-architecture-manifest.json"
+      ],
+      "acceptance": "npm run architecture:build",
+      "reason": "",
+      "next_action": ""
+    },
+    {
+      "id": "S4-02",
+      "stage": 4,
+      "title": "Implicit ALS/BPR 基线",
+      "status": "blocked",
+      "evidence": [
+        "crawler/data/reports/behavior_training_readiness.json"
+      ],
+      "acceptance": "npm run audit:behavior-readiness",
+      "reason": "已建立数据库直连训练门控；当前真实交互和强结果边未达到可信训练门槛。",
+      "next_action": "收集真实行为达到门槛后实现 ALS/BPR 并做时间切分。"
+    },
+    {
+      "id": "S4-03",
+      "stage": 4,
+      "title": "R-GCN/HGT 异构图链接预测",
+      "status": "blocked",
+      "evidence": [
+        "knowledge_graph/gnn_dataset/training_gate.json"
+      ],
+      "acceptance": "python knowledge_graph/test_hetero_graphsage.py",
+      "reason": "unsupervised heterogeneous GraphSAGE representation model trained; no supervised talent-job matching accuracy claim",
+      "next_action": "收集达到门槛的真实交互和结果边后再训练监督链接预测模型。"
+    },
+    {
+      "id": "S4-04",
+      "stage": 4,
+      "title": "LambdaMART、CF、GNN、KG 消融实验",
+      "status": "blocked",
+      "evidence": [
+        "knowledge_graph/gnn_dataset/training_gate.json"
+      ],
+      "acceptance": "",
+      "reason": "缺少独立相关性金标和监督 GNN 结果，当前消融无法产生可信结论。",
+      "next_action": "先补独立评测集和真实结果边。"
+    },
+    {
+      "id": "S4-05",
+      "stage": 4,
+      "title": "冷启动和热启动分组评测",
+      "status": "blocked",
+      "evidence": [
+        "crawler/data/reports/behavior_training_readiness.json"
+      ],
+      "acceptance": "npm run audit:behavior-readiness",
+      "reason": "已定义 cold=0、warm=1-9、hot>=10 的固定分组，但各组缺少独立强结果，不能发布效果指标。",
+      "next_action": "各历史分组积累真实 applied/interviewed/hired 结果后运行分组评测。"
+    }
+  ]
+}

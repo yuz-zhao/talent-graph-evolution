@@ -1,0 +1,29 @@
+{
+  "version": "new_job_discovery_v3.0.0",
+  "min_parent_samples": 16,
+  "min_cluster_size": 6,
+  "max_clusters_per_parent": 5,
+  "minimum_silhouette": 0.08,
+  "bootstrap_rounds": 5,
+  "candidate_thresholds": {
+    "formal_min_jds": 10,
+    "formal_min_companies": 3,
+    "formal_min_sources": 2,
+    "formal_min_stability": 0.65,
+    "formal_min_novelty": 0.45,
+    "formal_min_evidence": 0.42,
+    "formal_min_growth": 0.55,
+    "formal_max_company_share": 0.80,
+    "early_min_jds": 5,
+    "early_min_novelty": 0.32
+  },
+  "score_weights": {
+    "novelty": 0.25,
+    "growth": 0.20,
+    "evidence": 0.15,
+    "stability": 0.15,
+    "source_diversity": 0.10,
+    "company_diversity": 0.10,
+    "regional_spread": 0.05
+  }
+}
