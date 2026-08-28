@@ -1,5 +1,8 @@
 # TalentGraph Evolution
 
+> 多源异构数据驱动的岗位与能力图谱构建与动态演化分析系统
+> Job & Skill Knowledge Graph with dynamic evolution analysis
+
 TalentGraph Evolution 是一套面向数字经济岗位分析与人才能力评估的应用系统。项目将岗位数据、简历信息和技能关系组织为可查询的知识图谱，并提供人岗匹配、能力差距诊断、岗位演化分析、学习路径建议和 GraphRAG 证据解释。
 
 项目同时包含管理员端和用户端：管理员负责数据接入、图谱构建、质量检查与系统监测；普通用户可以维护个人画像、解析简历、查看岗位推荐和生成能力提升计划。
@@ -182,4 +185,5 @@ npm run audit:utf8
 chcp 65001
 $OutputEncoding = [Console]::OutputEncoding = [System.Text.UTF8Encoding]::new()
 ```
+
 
