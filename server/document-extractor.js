@@ -10,7 +10,7 @@ const mammoth = require('mammoth')
 
 const TESSERACT = process.env.TESSERACT_PATH || 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
 const PROJECT_TESSDATA = join(process.cwd(), 'server', 'tessdata')
-const PDFTOPPM_CANDIDATES = [process.env.PDFTOPPM_PATH, 'C:\\Users\\59959\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\poppler\\Library\\bin\\pdftoppm.exe', 'pdftoppm'].filter(Boolean)
+const PDFTOPPM_CANDIDATES = [process.env.PDFTOPPM_PATH, 'pdftoppm'].filter(Boolean)
 const PDFTOPPM = PDFTOPPM_CANDIDATES.find(x => x === 'pdftoppm' || existsSync(x)) || 'pdftoppm'
 const clean = value => String(value || '').replace(/\s+/g, ' ').trim()
 const cleanOcrText = value => clean(value).replace(/([\u3400-\u9fff])\s+(?=[\u3400-\u9fff])/g, '$1')
