@@ -9,7 +9,7 @@ import sys
 
 from openpyxl import load_workbook
 
-OUT_DIR = r"E:\TalentGraph\材料\100条真实岗位JD测试数据"
+OUT_DIR = os.environ.get("JD_TEST_KIT_DIR", "")
 
 CHECKS = {
     "100条JD原始数据.xlsx": 100,
@@ -20,6 +20,9 @@ CHECKS = {
 
 
 def main():
+    if not OUT_DIR:
+        print("[ERROR] 请设置环境变量 JD_TEST_KIT_DIR 指向「100条真实岗位JD测试数据」目录")
+        sys.exit(2)
     failures = []
     for fname, min_rows in CHECKS.items():
         path = os.path.join(OUT_DIR, fname)
